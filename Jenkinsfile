@@ -37,5 +37,14 @@ withMaven(jdk: 'localjdk-8', maven: 'localmaven') {
 }
 }
 }
+stage('Deploy artifact to tomcat')
+{
+steps
+{
+sshagent(['deploytomcat']) {
+    sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-user@3.21.236.18:/var/lib/tomcat/webapps'
+}
+}
+}
 }
 }
