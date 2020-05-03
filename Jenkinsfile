@@ -28,5 +28,14 @@ withMaven(jdk: 'localjdk-8', maven: 'localmaven') {
 }
 }
 }
+stage('Build my job')
+{
+steps
+{
+withMaven(jdk: 'localjdk-8', maven: 'localmaven') {
+    sh 'mvn package'
+}
+}
+}
 }
 }
