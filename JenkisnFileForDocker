@@ -45,11 +45,13 @@ stage ('Deploy to Dev')
 {
 	steps
 	{
-	
-	      def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app jaynath120/jaynath-app:1.0.0'
-	      sshagent(['deploy-to-dev-docker']) {
-		  sh "ssh -o StrictHostKeyChecking=no ec2-user@3.133.110.85 ${dockerRun}"
-	      }
+		scripts
+		{
+			      def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app jaynath120/jaynath-app:1.0.0'
+			      sshagent(['deploy-to-dev-docker']) {
+				  sh "ssh -o StrictHostKeyChecking=no ec2-user@3.133.110.85 ${dockerRun}"
+			      }
+		}
 	}
  }
 
