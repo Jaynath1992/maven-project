@@ -3,6 +3,7 @@ pipeline
 agent any
 stages
 {
+
 stage('scm-checkout')
 {
 steps
@@ -22,24 +23,33 @@ withMaven(jdk: 'localjdk-8', maven: 'localmaven') {
 }
 
 stage ('docker image build') 
-{
-     sh 'docker build -t jaynath120/jaynath-app:1.0.0 .'
+{    steps 
+	{
+     		sh 'docker build -t jaynath120/jaynath-app:1.0.0 .'
+	}
 }
 
 stage ('Push Docker image to DockerHub') 
 {
-   withCredentials([string(credentialsId: 'dockerhubaccount', variable: 'dockerhubaccount')]) {
-           sh "docker login -u jaynath120 -p ${dockerhubaccount}"
-     }
-           sh 'docker push jaynath120/jaynath-app:1.0.0'
+	steps
+	{
+		   withCredentials([string(credentialsId: 'dockerhubaccount', variable: 'dockerhubaccount')]) {
+			   sh "docker login -u jaynath120 -p ${dockerhubaccount}"
+		     }
+		    sh 'docker push jaynath120/jaynath-app:1.0.0'
+	}
 	
  }
  
 stage ('Deploy to Dev') {
-      def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app jaynath120/jaynath-app:1.0.0'
-      sshagent(['deploy-to-dev-docker']) {
-          sh "ssh -o StrictHostKeyChecking=no ec2-user@3.133.110.85 ${dockerRun}"
-      }
+	steps
+	{
+	
+	      def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app jaynath120/jaynath-app:1.0.0'
+	      sshagent(['deploy-to-dev-docker']) {
+		  sh "ssh -o StrictHostKeyChecking=no ec2-user@3.133.110.85 ${dockerRun}"
+	      }
+	}
  }
 
 
