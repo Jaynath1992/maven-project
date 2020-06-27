@@ -45,7 +45,7 @@ stage ('Deploy to Dev')
 {
 	steps
 	{
-		scripts
+		script
 		{
 			      def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app jaynath120/jaynath-app:1.0.0'
 			      sshagent(['deploy-to-dev-docker']) {
