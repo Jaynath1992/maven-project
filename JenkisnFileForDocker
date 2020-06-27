@@ -1,0 +1,30 @@
+pipeline
+{
+agent any
+stages
+{
+stage('scm-checkout')
+{
+steps
+{
+git branch: 'master', url: 'https://github.com/Jaynath1992/maven-project'
+}
+}
+
+stage('Maven Package Stage')
+{
+steps
+{
+withMaven(jdk: 'localjdk-8', maven: 'localmaven') {
+    sh label: '', script: 'mvn clean package '
+}
+}
+}
+
+stage ('docker image build') {
+     sh 'docker build -t jaynath120/jaynath-app:1.0.0 .'
+	}
+
+
+}
+}
