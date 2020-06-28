@@ -33,8 +33,8 @@ stage ('Push Docker image to DockerHub')
 {
 	steps
 	{
-		   withCredentials([string(credentialsId: 'dockerhubaccount', variable: 'dockerhubaccount')]) {
-			   sh "docker login -u jaynath120 -p ${dockerhubaccount}"
+		   withCredentials([string(credentialsId: 'dockerhubaccount1', variable: 'dockerhubaccount1')]) {
+			   sh "docker login -u jaynath120 -p ${dockerhubaccount1}"
 		     }
 		    sh 'docker push jaynath120/jaynath-app:1.0.0'
 	}
